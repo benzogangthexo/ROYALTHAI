@@ -5,44 +5,46 @@
    BRAND TOKENS: меняй только значения (палитра из BRIEF.md)
    ============================================================ */
 :root {
-  --bg: #0e0e10;
-  --bg-2: #09090b;
-  --surface: #151518;
-  --surface-2: #1c1c20;
-  --line: rgb(240 236 228 / 0.12);
-  --line-strong: rgb(240 236 228 / 0.24);
-  --fg: #f0ece4;
-  --fg-muted: #b3ada3;
+  --bg: #0b231b;
+  --bg-2: #071a13;
+  --surface: #10301f;
+  --surface-2: #153a27;
+  --line: rgb(233 222 196 / 0.12);
+  --line-strong: rgb(233 222 196 / 0.24);
+  --fg: #efe7d6;
+  --fg-muted: #b7b09c;
   --brand: #d2ae67;
-  --brand-ink: #111111;
+  --brand-ink: #0b1a12;
   --brand-2: #8c6a2f;
   --brand-3: #9cc54a;
-  --paper: #f0e7d6;
-  --paper-ink: #1b1712;
-  --danger: #ff7a6b;
-  --ok: #8fd18a;
+  --paper: #efe4cc;
+  --paper-ink: #1d1a12;
+  --danger: #f39a88;
+  --ok: #9cc54a;
 
-  --radius: 0.75rem;
+  --radius: 0.375rem;
   --radius-pill: 999px;
-  --shadow-soft: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 24px 60px -24px rgb(0 0 0 / 0.6);
-  --shadow-lift: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 40px 90px -30px rgb(0 0 0 / 0.75);
+  --shadow-soft: 0 1px 0 rgb(239 231 214 / 0.05) inset, 0 24px 60px -24px rgb(2 12 8 / 0.7);
+  --shadow-lift: 0 1px 0 rgb(239 231 214 / 0.07) inset, 0 40px 90px -30px rgb(2 12 8 / 0.85);
   --glow: radial-gradient(60% 60% at 50% 0%, color-mix(in oklab, var(--brand) 18%, transparent), transparent 70%);
 
-  --cursor-color: var(--fg);
+  --cursor-color: var(--brand);
+  --preloader-bg: var(--bg-2);
+  --preloader-fg: var(--brand);
   --cursor-label-bg: var(--brand);
   --cursor-label-fg: var(--brand-ink);
 
   /* типографика: clamp() от 320 до 1920 */
-  --fs-hero: clamp(2.6rem, 1.55rem + 5.2vw, 8.25rem);
-  --fs-h1: clamp(2.2rem, 1.45rem + 3.6vw, 5.5rem);
-  --fs-h2: clamp(1.85rem, 1.3rem + 2.5vw, 4rem);
+  --fs-hero: clamp(2.35rem, 1.5rem + 4.3vw, 7rem);
+  --fs-h1: clamp(2.1rem, 1.4rem + 3.4vw, 5.25rem);
+  --fs-h2: clamp(1.9rem, 1.35rem + 2.5vw, 4.1rem);
   --fs-h3: clamp(1.3rem, 1.1rem + 0.95vw, 2rem);
   --fs-lead: clamp(1.08rem, 0.98rem + 0.45vw, 1.4rem);
   --fs-body: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);
   --fs-small: 0.875rem;
   --fs-micro: 0.75rem;
-  --lh-tight: 0.95;
-  --tracking-display: -0.02em;
+  --lh-tight: 1;
+  --tracking-display: -0.005em;
 
   /* сетка 12/6/4 */
   --container: 1440px;

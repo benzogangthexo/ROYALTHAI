@@ -1,34 +1,61 @@
-import type { BookingConfig } from "@/lib/booking";
+import { branches, districts } from "@/content/branches";
+import { optionId, serviceGroups, services } from "@/content/services";
+import { site } from "@/content/site";
+import type { BookingConfig, Week } from "@/lib/booking";
+import { formatPrice } from "@/lib/utils";
 
-/* Конфиг записи заведения: часы, зона, шаги с реальными услугами и ценами */
+/* Запись: программа -> салон (свои часы) -> дата -> время -> контакты. Зона Europe/Moscow. */
+
+const daily = (open: string, close: string): Week => {
+  const h = { open, close };
+  return [h, h, h, h, h, h, h];
+};
+
 export const bookingConfig: BookingConfig = {
-  codePrefix: "DEMO",
+  codePrefix: "RT",
   timeZone: "Europe/Moscow",
   slotMinutes: 30,
   leadMinutes: 60,
   lastSlotBeforeClose: 60,
   daysAhead: 14,
-  busyShare: 0.3,
-  week: [
-    { open: "12:00", close: "00:00" },
-    { open: "12:00", close: "00:00" },
-    { open: "12:00", close: "00:00" },
-    { open: "12:00", close: "00:00" },
-    { open: "12:00", close: "00:00" },
-    { open: "12:00", close: "02:00" },
-    { open: "12:00", close: "02:00" },
-  ],
+  busyShare: 0.34,
+  week: daily("10:00", "22:00"),
+  scopeStep: "salon",
+  scopes: Object.fromEntries(branches.map((b) => [b.id, daily(b.open, b.close)])),
   steps: [
     {
-      id: "guests",
-      title: "Сколько гостей",
-      options: [
-        { id: "2", label: "1-2 гостя" },
-        { id: "4", label: "3-4 гостя" },
-        { id: "6", label: "5-6 гостей" },
-        { id: "10", label: "7-10 гостей", note: "Уточним по телефону" },
-      ],
+      id: "service",
+      title: "Программа",
+      hint: "Цена за сеанс, у программ для двоих за пару.",
+      groups: serviceGroups,
+      columns: 2,
+      options: services
+        .filter((s) => !s.addon)
+        .flatMap((s) =>
+          s.prices.map((p) => ({
+            id: optionId(s.id, p.minutes),
+            label: s.title,
+            note: `${p.minutes} мин`,
+            price: `${formatPrice(p.price)} ₽`,
+            group: s.group,
+            badge: s.pajamas ? "в пижаме" : undefined,
+          })),
+        ),
+    },
+    {
+      id: "salon",
+      title: "Салон",
+      hint: "Часы работы у салонов разные, время подстроится.",
+      groups: districts,
+      columns: 2,
+      options: branches.map((b) => ({
+        id: b.id,
+        label: b.name,
+        note: b.address ?? b.place ?? "Адрес подскажет администратор",
+        group: b.district,
+        badge: b.close !== "22:00" ? `до ${b.close}` : undefined,
+      })),
     },
   ],
-  phone: "+7 (900) 000-00-00",
+  phone: site.phone,
 };

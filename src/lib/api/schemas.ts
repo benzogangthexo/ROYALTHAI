@@ -70,3 +70,58 @@ export const BookingResponseSchema = z.object({
   summary: z.array(z.object({ label: z.string(), value: z.string() })),
 });
 export type BookingResponse = z.infer<typeof BookingResponseSchema>;
+
+/* ===== Прайс и салоны ===== */
+
+export const ServiceTagSchema = z.enum(["her", "him", "two", "spa"]);
+export const ServiceFilterSchema = z.enum(["all", "her", "him", "two", "spa"]);
+export type ServiceFilter = z.infer<typeof ServiceFilterSchema>;
+
+export const ServiceSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  note: z.string(),
+  group: z.enum(["body", "spa", "two", "local", "shape"]),
+  tags: z.array(ServiceTagSchema),
+  photo: z.enum(["thai", "oil", "spa", "two", "local", "stone", "barrel"]),
+  prices: z.array(z.object({ minutes: z.number().int().positive(), price: z.number().int().positive() })).min(1),
+  pajamas: z.boolean().optional(),
+  addon: z.boolean().optional(),
+});
+export type ServiceDto = z.infer<typeof ServiceSchema>;
+
+export const ServicesQuerySchema = z.object({ for: ServiceFilterSchema.default("all") });
+export const ServicesResponseSchema = z.object({ filter: ServiceFilterSchema, items: z.array(ServiceSchema) });
+export type ServicesResponse = z.infer<typeof ServicesResponseSchema>;
+
+export const DistrictFilterSchema = z.enum(["all", "center", "north", "south", "east", "islands"], {
+  message: "Такой части города нет",
+});
+export type DistrictFilter = z.infer<typeof DistrictFilterSchema>;
+
+export const BranchSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  district: z.enum(["center", "north", "south", "east", "islands"]),
+  address: z.string().nullable(),
+  place: z.string().optional(),
+  metro: z.array(z.string()),
+  open: TimeStr,
+  close: TimeStr,
+  yandexId: z.string().optional(),
+  rating: z.object({ value: z.number(), reviews: z.number().int() }).optional(),
+  coords: z.tuple([z.number(), z.number()]).optional(),
+  bali: z.boolean().optional(),
+});
+export type BranchDto = z.infer<typeof BranchSchema>;
+
+export const BranchesQuerySchema = z.object({
+  district: DistrictFilterSchema.default("all"),
+  q: z.string().trim().max(60, "Слишком длинный запрос").optional(),
+});
+export const BranchesResponseSchema = z.object({
+  district: DistrictFilterSchema,
+  q: z.string(),
+  items: z.array(BranchSchema),
+});
+export type BranchesResponse = z.infer<typeof BranchesResponseSchema>;
