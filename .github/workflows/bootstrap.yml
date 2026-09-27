@@ -1,0 +1,94 @@
+name: bootstrap
+on:
+  push:
+    branches: [claude/sleepy-brahmagupta-jy6nfi]
+    paths: [".github/bootstrap/**", ".github/workflows/bootstrap.yml"]
+permissions:
+  contents: write
+concurrency:
+  group: bootstrap
+  cancel-in-progress: false
+jobs:
+  init:
+    runs-on: ubuntu-24.04
+    outputs:
+      rid: ${{ steps.r.outputs.rid }}
+    steps:
+      - id: r
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          rid=$(gh api "repos/$GITHUB_REPOSITORY/releases" -f tag_name="bootstrap-$GITHUB_RUN_ID" \
+            -f name="bootstrap $GITHUB_RUN_ID" -F draft=true -f target_commitish="$GITHUB_SHA" --jq .id)
+          echo "rid=$rid" >> "$GITHUB_OUTPUT"
+
+  deps:
+    needs: init
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: pnpm install --frozen-lockfile
+      - run: |
+          mkdir -p tools && cd tools && npm init -y >/dev/null
+          npm i lighthouse@13 --no-audit --no-fund --loglevel=error
+      - run: |
+          pip download --only-binary=:all: --python-version 3.11 --implementation cp --abi cp311 \
+            --platform manylinux_2_28_x86_64 --platform manylinux2014_x86_64 --platform manylinux_2_17_x86_64 \
+            -d wheels pillow fonttools brotli
+      - run: tar -czf deps.tgz node_modules && tar -czf tools.tgz tools wheels && ls -la ./*.tgz
+      - env:
+          RID: ${{ needs.init.outputs.rid }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for f in deps.tgz tools.tgz; do
+            curl -sS --fail -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/octet-stream" \
+              --data-binary @"$f" "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$RID/assets?name=$f" -o /dev/null
+          done
+
+  fonts:
+    needs: init
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install fonttools brotli requests
+      - run: python .github/bootstrap/fonts.py fonts && tar -czf fonts.tgz fonts
+      - env:
+          RID: ${{ needs.init.outputs.rid }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sS --fail -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/octet-stream" \
+            --data-binary @fonts.tgz "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$RID/assets?name=fonts.tgz" -o /dev/null
+
+  scrape:
+    needs: init
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        venue: [royalthai, fry, iren, izba]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install playwright requests pillow && python -m playwright install --with-deps chromium
+      - run: python .github/bootstrap/scrape.py ${{ matrix.venue }}
+      - if: always()
+        env:
+          RID: ${{ needs.init.outputs.rid }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tar -czf "photos-${{ matrix.venue }}.tgz" -C out "${{ matrix.venue }}"
+          curl -sS --fail -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/octet-stream" \
+            --data-binary @"photos-${{ matrix.venue }}.tgz" \
+            "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$RID/assets?name=photos-${{ matrix.venue }}.tgz" -o /dev/null
