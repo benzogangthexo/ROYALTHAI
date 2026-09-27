@@ -28,14 +28,18 @@ const d = (s: string) => ({ "--d": s }) as CSSProperties;
 export function Hero({ children }: { children?: ReactNode }) {
   const track = useRef<HTMLDivElement>(null);
   const frame = useRef<SVGSVGElement>(null);
-  const edge = useRef<SVGGElement>(null);
+  const edge = useRef<SVGSVGElement>(null);
   const photo = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLDivElement>(null);
   const near = useRef<HTMLDivElement>(null);
   const thai = serviceById("thai");
 
   useScrollAnim(frame, { transform: ["scale(1)", "scale(1.7)", "scale(10)"] }, { target: track, offset: OPEN, times: [0, 0.4, 1] });
-  useScrollAnim(edge, { opacity: [1, 0, 0] }, { target: track, offset: OPEN, times: [0, 0.3, 1] });
+  useScrollAnim(
+    edge,
+    { opacity: [1, 0, 0], transform: ["scale(1)", "scale(1.5)", "scale(1.5)"] },
+    { target: track, offset: OPEN, times: [0, 0.3, 1] },
+  );
   useScrollAnim(photo, { transform: ["scale(1.14)", "scale(1)"] }, { target: track, offset: OPEN });
   useScrollAnim(
     copy,
@@ -103,27 +107,34 @@ export function Hero({ children }: { children?: ReactNode }) {
                 className="absolute inset-0 size-full overflow-visible will-change-transform [transform-origin:50%_45%]"
               >
                 <path d={FRAME} fillRule="evenodd" className="fill-bg" />
-                <g ref={edge} data-motion className="text-brand">
-                  <path
-                    d={ARCH}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.25}
-                    vectorEffect="non-scaling-stroke"
-                    pathLength={1}
-                    className="arch-draw"
-                  />
-                  <path
-                    d={INNER}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeOpacity={0.45}
-                    strokeWidth={1}
-                    vectorEffect="non-scaling-stroke"
-                    pathLength={1}
-                    className="arch-draw arch-draw--late"
-                  />
-                </g>
+              </svg>
+              {/* контур отдельным слоем: дорисовка перерисовывает маленький SVG, а не огромную рамку */}
+              <svg
+                ref={edge}
+                data-motion
+                viewBox="0 0 100 150"
+                aria-hidden="true"
+                className="absolute inset-0 size-full overflow-visible text-brand will-change-transform [transform-origin:50%_45%]"
+              >
+                <path
+                  d={ARCH}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.25}
+                  vectorEffect="non-scaling-stroke"
+                  pathLength={1}
+                  className="arch-draw"
+                />
+                <path
+                  d={INNER}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeOpacity={0.45}
+                  strokeWidth={1}
+                  vectorEffect="non-scaling-stroke"
+                  pathLength={1}
+                  className="arch-draw arch-draw--late"
+                />
               </svg>
               <div ref={near} data-motion aria-hidden="true" className="pointer-events-none absolute -inset-x-7 -bottom-3 top-[12%] text-brand">
                 <span className="absolute inset-y-0 left-0 w-px bg-[linear-gradient(to_bottom,transparent,currentColor_30%,currentColor_70%,transparent)] opacity-60" />

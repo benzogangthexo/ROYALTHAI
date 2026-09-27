@@ -66,6 +66,7 @@ export function Rituals() {
                     sizes="(min-width: 768px) 50vw, 100vw"
                     placeholder="blur"
                     className="object-cover"
+                    style={"focus" in r ? { objectPosition: r.focus } : undefined}
                   />
                 </div>
                 <div className="flex min-h-0 flex-col p-5 sm:p-8 lg:p-12">

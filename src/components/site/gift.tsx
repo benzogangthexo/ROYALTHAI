@@ -24,7 +24,7 @@ export function Gift() {
         <div className="relative mx-auto w-full max-w-[34rem] lg:col-span-6 lg:max-w-none">
           <DrawOnScroll offset={["start 0.9", "center 0.5"]} className="pointer-events-none absolute -inset-3 text-brand sm:-inset-4">
             <svg aria-hidden="true" viewBox="0 0 100 125" preserveAspectRatio="none" className="size-full overflow-visible">
-              <path data-draw d="M0 125V50A50 50 0 0 1 100 50V125" fill="none" stroke="currentColor" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+              <path data-draw d="M0 125V50A50 50 0 0 1 100 50V125" fill="none" stroke="currentColor" strokeWidth={0.2} />
             </svg>
           </DrawOnScroll>
           <GrowMedia from={0.84} className="aspect-[4/5] rounded-t-[999px]">
