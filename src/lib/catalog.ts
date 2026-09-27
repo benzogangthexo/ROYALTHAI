@@ -17,7 +17,9 @@ const norm = (v: string) =>
 
 export function filterBranches(district: DistrictFilter, q = ""): Branch[] {
   const words = norm(q).split(" ").filter(Boolean);
-  return branches.filter((b) => {
+  /* сначала салоны с адресом (стабильная сортировка сохраняет порядок внутри групп) */
+  const sorted = [...branches].sort((a, b) => Number(!a.address) - Number(!b.address));
+  return sorted.filter((b) => {
     if (district !== "all" && b.district !== district) return false;
     if (!words.length) return true;
     const hay = norm([b.name, b.address ?? "", b.place ?? "", ...b.metro].join(" "));

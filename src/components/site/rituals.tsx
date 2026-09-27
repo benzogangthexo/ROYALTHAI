@@ -1,12 +1,9 @@
-"use client";
-
 import Image from "next/image";
 
-import { presetBooking } from "@/components/booking/preset";
 import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/layout/eyebrow";
 import { StickyStack } from "@/components/motion/sticky-stack";
-import { Button } from "@/components/ui/button";
+import { PresetButton } from "@/components/site/preset-button";
 import { servicePhotos } from "@/content/photos";
 import { optionId, rituals, serviceById } from "@/content/services";
 import { formatPrice, nb } from "@/lib/utils";
@@ -73,31 +70,33 @@ export function Rituals() {
                 </div>
                 <div className="flex min-h-0 flex-col p-5 sm:p-8 lg:p-12">
                   <div className="flex items-baseline gap-4">
-                    <span aria-hidden="true" className="font-display text-[1.6rem] leading-none text-brand lg:text-[2.2rem]">
+                    <span aria-hidden="true" className="font-display text-[1.6rem] leading-none text-brand lg:text-[2.6rem]">
                       {r.index}
                     </span>
-                    <h3 id={`ritual-${r.id}`} className="t-h3">
+                    <h3 id={`ritual-${r.id}`} className="t-h3 lg:text-[clamp(2rem,1.1rem+1.5vw,2.9rem)] lg:leading-[1.05]">
                       {r.title}
                     </h3>
                   </div>
-                  <p className="mt-3 text-[0.95rem] leading-relaxed text-fg-muted sm:mt-5 sm:text-base">{nb(r.text)}</p>
+                  <span aria-hidden="true" className="mt-6 hidden h-px w-16 bg-brand/60 lg:block" />
+                  <p className="mt-3 text-[0.95rem] leading-relaxed text-fg-muted sm:mt-5 sm:text-base lg:text-[1.1rem]">{nb(r.text)}</p>
                   <ul className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(4.5rem,1fr))] gap-px overflow-hidden rounded-[calc(var(--radius)-2px)] border border-line bg-line md:mt-auto">
                     {rows.map((row) => (
-                      <li key={row.key} className="bg-surface px-3 py-2.5">
-                        <span className="block text-[0.75rem] text-fg-muted">{row.label}</span>
-                        <span className="tabular mt-0.5 block whitespace-nowrap text-[0.98rem] text-fg">{formatPrice(row.price)} ₽</span>
+                      <li key={row.key} className="bg-surface px-3 py-2.5 lg:px-4 lg:py-3.5">
+                        <span className="block text-[0.75rem] text-fg-muted lg:text-[0.82rem]">{row.label}</span>
+                        <span className="tabular mt-0.5 block whitespace-nowrap text-[0.98rem] text-fg lg:text-[1.2rem]">{formatPrice(row.price)} ₽</span>
                       </li>
                     ))}
                   </ul>
                   {first ? (
-                    <Button
+                    <PresetButton
                       size="lg"
                       className="mt-5 self-start"
-                      onClick={() => presetBooking("service", first.option)}
+                      stepId="service"
+                      optionId={first.option}
                       aria-label={`Выбрать: ${r.title}`}
                     >
                       Выбрать
-                    </Button>
+                    </PresetButton>
                   ) : null}
                 </div>
               </article>

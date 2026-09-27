@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/layout/eyebrow";
+import { DrawOnScroll } from "@/components/motion/draw-path";
 import { GrowMedia } from "@/components/motion/grow-media";
 import { MagneticButton } from "@/components/motion/magnetic-button";
 import { Button } from "@/components/ui/button";
@@ -20,17 +21,19 @@ export function Gift() {
   return (
     <section id="gift" aria-labelledby="gift-title" className="relative py-[var(--section-y)]">
       <Container className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-[var(--col-gap)]">
-        <div className="relative lg:col-span-6">
-          <GrowMedia
-            from={0.84}
-            className="aspect-[4/5] rounded-t-[999px] sm:aspect-[4/3] sm:rounded-t-[var(--radius)] lg:aspect-[4/5] lg:rounded-t-[999px]"
-          >
+        <div className="relative mx-auto w-full max-w-[34rem] lg:col-span-6 lg:max-w-none">
+          <DrawOnScroll offset={["start 0.9", "center 0.5"]} className="pointer-events-none absolute -inset-3 text-brand sm:-inset-4">
+            <svg aria-hidden="true" viewBox="0 0 100 125" preserveAspectRatio="none" className="size-full overflow-visible">
+              <path data-draw d="M0 125V50A50 50 0 0 1 100 50V125" fill="none" stroke="currentColor" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+            </svg>
+          </DrawOnScroll>
+          <GrowMedia from={0.84} className="aspect-[4/5] rounded-t-[999px]">
             <Image
-              src={photos.certBox.src}
-              alt={photos.certBox.alt}
+              src={photos.certTray.src}
+              alt={photos.certTray.alt}
               fill
               quality={75}
-              sizes="(min-width: 1024px) 48vw, 100vw"
+              sizes="(min-width: 1024px) 48vw, (min-width: 640px) 34rem, 100vw"
               placeholder="blur"
               className="object-cover"
             />
@@ -77,7 +80,7 @@ export function Gift() {
           </div>
           <div className="mt-12 flex items-center gap-5 border-t border-line pt-8">
             <div className="relative aspect-[3/2] w-28 shrink-0 overflow-hidden rounded-[calc(var(--radius)-2px)] sm:w-36">
-              <Image src={photos.certTray.src} alt={photos.certTray.alt} fill quality={75} sizes="144px" className="object-cover" />
+              <Image src={photos.certBox.src} alt={photos.certBox.alt} fill quality={75} sizes="144px" className="object-cover" />
             </div>
             <p className="text-[0.95rem] text-fg-muted">
               Корпоративным клиентам: сертификаты для сотрудников и партнёров по договору,{" "}

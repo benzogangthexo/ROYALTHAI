@@ -53,7 +53,7 @@ export function FilterChips<T extends string>({
               />
             ) : null}
             {o.label}
-            {typeof o.count === "number" ? <span className="tabular opacity-60">{o.count}</span> : null}
+            {typeof o.count === "number" ? <span className="tabular opacity-80">{o.count}</span> : null}
           </button>
         );
       })}

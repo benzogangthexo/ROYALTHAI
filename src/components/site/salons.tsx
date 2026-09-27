@@ -8,6 +8,7 @@ import { presetBooking } from "@/components/booking/preset";
 import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/layout/eyebrow";
 import { Parallax } from "@/components/motion/parallax";
+import { Ornament } from "@/components/site/ornament";
 import { Button } from "@/components/ui/button";
 import { FilterChips } from "@/components/ui/filter-chips";
 import { branches, districts, routeHref } from "@/content/branches";
@@ -140,6 +141,7 @@ export function Salons({ initial }: { initial: BranchDto[] }) {
   return (
     <section id="salons" aria-labelledby="salons-title" className="relative py-[var(--section-y)]">
       <Container>
+        <Ornament className="mb-[clamp(3rem,2rem+4vw,6rem)]" />
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-[var(--col-gap)]">
           <div className="lg:col-span-7">
             <Eyebrow index="05">Салоны</Eyebrow>

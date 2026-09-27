@@ -25,11 +25,25 @@ export function useScrollAnim(
     const el = ref.current;
     const [frames, offset, times] = JSON.parse(key) as [Keyframes | null, ScrollOffset | null, number[] | null];
     if (!el || !frames || !motionAllowed()) return;
-    const controls = animate(el, frames, { ease: "linear", duration: 1, ...(times ? { times } : {}) });
-    const stop = scroll(controls, { target: target?.current ?? el, ...(offset ? { offset } : {}) });
+    const watch = target?.current ?? el;
+    let controls: ReturnType<typeof animate> | undefined;
+    let stop: (() => void) | undefined;
+    /* создаём анимацию, только когда цель в экране от нас (меньше работы на старте, TBT);
+       до этого элемент в своём SSR-состоянии и далеко за краем экрана, скачка не видно */
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        controls = animate(el, frames, { ease: "linear", duration: 1, ...(times ? { times } : {}) });
+        stop = scroll(controls, { target: watch, ...(offset ? { offset } : {}) });
+      },
+      { rootMargin: "100% 0px" },
+    );
+    io.observe(watch);
     return () => {
-      stop();
-      controls.stop();
+      io.disconnect();
+      stop?.();
+      controls?.stop();
     };
   }, [ref, target, key]);
 }

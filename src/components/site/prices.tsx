@@ -17,7 +17,7 @@ import { ServicesResponseSchema, type ServiceDto, type ServiceFilter } from "@/l
 import { filterServices } from "@/lib/catalog";
 import { formatPrice, nb } from "@/lib/utils";
 
-const ROW = "h-[6.75rem] py-0 sm:h-[6.25rem] sm:py-0";
+const ROW = "h-[5.75rem] py-0 sm:h-[6.25rem] sm:py-0";
 
 function priceLabel(s: ServiceDto) {
   const value = `${formatPrice(minPrice(s))} ₽`;
@@ -59,7 +59,7 @@ export function Prices({ initial }: { initial: ServiceDto[] }) {
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-10">
             <Eyebrow index="03">Цены</Eyebrow>
-            <h2 id="prices-title" className="t-h1 mt-6">
+            <h2 id="prices-title" className="t-h1 mt-6 lg:text-[length:var(--fs-h2)]">
               Все программы и цены
             </h2>
             <p className="mt-6 text-fg-muted">

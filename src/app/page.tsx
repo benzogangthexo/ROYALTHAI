@@ -21,7 +21,7 @@ export default function Home() {
     <>
       <Preloader>
         <Flower draw className="size-20 text-brand" />
-        <span className="font-display text-[1.05rem] tracking-[0.3em] text-fg">ROYAL THAI</span>
+        <span className="whitespace-nowrap font-display text-[clamp(2.1rem,10.5vw,5.5rem)] leading-none tracking-[0.1em] text-fg">ROYAL THAI</span>
       </Preloader>
       <div className="relative">
         <Header />

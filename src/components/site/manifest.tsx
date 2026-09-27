@@ -29,8 +29,8 @@ export function Manifest() {
             <dl className="mt-10 grid grid-cols-3 gap-4 border-t border-line pt-6">
               {[
                 { k: "Первый салон", v: String(site.founded) },
-                { k: "Мастеров в городе", v: String(site.mastersInCity) },
-                { k: "Салонов в городе", v: String(site.salonsInCity) },
+                { k: "Мастеров", v: String(site.mastersInCity) },
+                { k: "Салонов", v: String(site.salonsInCity) },
               ].map((s) => (
                 <div key={s.k}>
                   <dt className="text-[0.8rem] leading-snug text-fg-muted">{s.k}</dt>

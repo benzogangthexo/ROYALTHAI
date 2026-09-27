@@ -57,9 +57,9 @@ export function Hero({ children }: { children?: ReactNode }) {
             src={photos.hero.src}
             alt={photos.hero.alt}
             fill
-            preload
+            loading="eager"
             quality={75}
-            sizes="(max-aspect-ratio: 3/2) 150vh, 100vw"
+            sizes="(max-aspect-ratio: 3/2) 125vh, 100vw"
             placeholder="blur"
             className="object-cover object-[50%_60%]"
           />

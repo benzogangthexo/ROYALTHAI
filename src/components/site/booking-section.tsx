@@ -1,8 +1,9 @@
 import Image from "next/image";
 
-import { BookingWizard } from "@/components/booking/booking-wizard";
 import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/layout/eyebrow";
+import { LazyBooking } from "@/components/site/lazy-booking";
+import { Ornament } from "@/components/site/ornament";
 import { photos } from "@/content/photos";
 import { site } from "@/content/site";
 import { nb, telHref } from "@/lib/utils";
@@ -10,6 +11,9 @@ import { nb, telHref } from "@/lib/utils";
 export function BookingSection() {
   return (
     <section id="booking" aria-labelledby="booking-title" className="relative py-[var(--section-y)]">
+      <Container>
+        <Ornament className="mb-[clamp(3rem,2rem+4vw,6rem)]" />
+      </Container>
       <Container className="grid gap-12 lg:grid-cols-12 lg:gap-[var(--col-gap)]">
         <div className="lg:col-span-5">
           <Eyebrow index="08">Запись</Eyebrow>
@@ -39,7 +43,7 @@ export function BookingSection() {
           </div>
         </div>
         <div className="min-w-0 lg:col-span-7">
-          <BookingWizard successNote="Администратор салона перезвонит и подтвердит визит. Номер записи назовите на ресепшене." />
+          <LazyBooking successNote="Администратор салона перезвонит и подтвердит визит. Номер записи назовите на ресепшене." />
         </div>
       </Container>
     </section>

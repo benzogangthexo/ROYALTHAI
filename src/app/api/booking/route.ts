@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   for (const step of bookingConfig.steps) {
     const option = step.options.find((o) => o.id === data.choices[step.id]);
     if (!option) return fail(422, "choice_missing", `Выберите: ${step.title.toLowerCase()}`, { [step.id]: ["Не выбрано"] });
-    summary.push({ label: step.title, value: option.label });
+    summary.push({ label: step.title, value: option.note ? `${option.label}, ${option.note}` : option.label });
   }
 
   const scope = bookingConfig.scopeStep ? data.choices[bookingConfig.scopeStep] : undefined;
