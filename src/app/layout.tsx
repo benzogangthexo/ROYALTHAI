@@ -26,14 +26,23 @@ const body = localFont({
   display: "swap",
 });
 
+const title = "ROYAL THAI: тайский и балийский массаж в Петербурге";
+const description =
+  "27 салонов тайского и балийского массажа в Петербурге. Мастера из Таиланда и Индонезии, традиционный тайский от 4 890 ₽ за 60 минут, программы для двоих и подарочные сертификаты.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: "Шаблон",
-  description: "Шаблон сайта заведения",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3101"),
+  title,
+  description,
+  applicationName: "ROYAL THAI",
+  alternates: { canonical: "/" },
+  openGraph: { type: "website", locale: "ru_RU", siteName: "ROYAL THAI", title, description, url: "/" },
+  twitter: { card: "summary_large_image", title, description },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0e0e10",
+  themeColor: "#0b231b",
   colorScheme: "dark",
   viewportFit: "cover",
 };

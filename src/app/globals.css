@@ -544,3 +544,27 @@ html:not(.js) [data-motion] {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* ============ ROYAL THAI: арка первого экрана ============ */
+.arch-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: pl-draw 1.8s var(--ease-in-out) forwards;
+  animation-delay: calc(var(--mask-delay, 0s) + 0.15s);
+}
+.arch-draw--late {
+  animation-delay: calc(var(--mask-delay, 0s) + 0.55s);
+}
+html:not(.rm):not(.pl-skip) .arch-draw {
+  --mask-delay: 1.35s;
+}
+html.rm .arch-draw,
+html:not(.js) .arch-draw {
+  stroke-dashoffset: 0;
+  animation: none;
+}
+/* без JS и при reduced-motion арка не раскрывается: пустой трек не нужен */
+html.rm .hero-track,
+html:not(.js) .hero-track {
+  display: none;
+}

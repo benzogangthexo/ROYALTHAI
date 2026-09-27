@@ -20,3 +20,10 @@ export function formatPrice(value: number) {
 export function telHref(phone: string) {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
 }
+
+/** Типографика: неразрывный пробел после коротких слов и между числом и словом (без висячих предлогов) */
+export function nb(text: string) {
+  return text
+    .replace(/(?<=^|[\s«( ])([а-яёА-ЯЁA-Za-z]{1,2})\s+/g, "$1 ")
+    .replace(/(\d)\s+(?=[а-яёА-ЯЁ₽%])/g, "$1 ");
+}

@@ -173,5 +173,11 @@ export const yandexSummary = (() => {
   const rated = branches.filter((b) => b.rating);
   const reviews = rated.reduce((sum, b) => sum + (b.rating?.reviews ?? 0), 0);
   const values = rated.map((b) => b.rating?.value ?? 0);
-  return { salons: rated.length, reviews, min: Math.min(...values), max: Math.max(...values) };
+  return {
+    salons: rated.length,
+    reviews,
+    top: rated.filter((b) => b.rating?.value === 5).length,
+    min: Math.min(...values),
+    max: Math.max(...values),
+  };
 })();

@@ -179,7 +179,7 @@ export const services: Service[] = [
     note: "Плечи, руки и верх спины. Помогает при напряжении и головной боли.",
     group: "local",
     tags: ["her", "him"],
-    photo: "local",
+    photo: "oil",
     prices: half(3390, 4890),
     pajamas: true,
   },
@@ -189,7 +189,7 @@ export const services: Service[] = [
     note: "Масляный ритуал для тех, кто много часов сидит за компьютером.",
     group: "local",
     tags: [],
-    photo: "local",
+    photo: "oil",
     prices: half(3390, 4890),
   },
   {
@@ -198,7 +198,7 @@ export const services: Service[] = [
     note: "Разогревает и разминает мышцы от затылка до поясницы.",
     group: "local",
     tags: [],
-    photo: "local",
+    photo: "oil",
     prices: half(3390, 4890),
   },
   {
@@ -207,7 +207,7 @@ export const services: Service[] = [
     note: "Снимает мышечное напряжение и усталость после нагрузок.",
     group: "local",
     tags: [],
-    photo: "local",
+    photo: "oil",
     prices: half(3390, 4890),
   },
   {
@@ -216,7 +216,7 @@ export const services: Service[] = [
     note: "Спокойные полчаса, один из самых расслабляющих массажей.",
     group: "local",
     tags: ["her", "him"],
-    photo: "spa",
+    photo: "local",
     prices: half(3390),
   },
   {
@@ -225,7 +225,7 @@ export const services: Service[] = [
     note: "Подтягивает овал лица, мимические морщины становятся мягче.",
     group: "local",
     tags: ["her", "him"],
-    photo: "spa",
+    photo: "local",
     prices: half(4490),
   },
   {
