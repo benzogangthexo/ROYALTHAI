@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // статическая сборка для GitHub Pages
+    "docs/**",
+    ".pages-api-stash/**",
   ]),
 ]);
 
