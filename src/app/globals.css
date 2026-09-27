@@ -405,11 +405,6 @@ html.has-cursor [role="button"] {
 }
 
 /* ============ прелоадер (чистый CSS: работает без JS, не держит LCP) ============ */
-@property --pl-n {
-  syntax: "<integer>";
-  initial-value: 0;
-  inherits: false;
-}
 .preloader {
   position: fixed;
   inset: 0;
@@ -422,21 +417,44 @@ html.has-cursor [role="button"] {
   pointer-events: none;
 }
 .preloader__count {
-  counter-reset: pl var(--pl-n);
-  animation: pl-count 1.2s var(--ease-out-quart) forwards;
+  font-variant-numeric: tabular-nums;
+  --pl-dur: 1.2s;
+}
+.preloader__digits {
+  display: inline-block;
+  height: 1em;
+  line-height: 1;
+  overflow: hidden;
+  vertical-align: bottom;
   font-variant-numeric: tabular-nums;
 }
-.preloader__count::after {
-  content: counter(pl);
+.preloader__strip {
+  display: block;
+  white-space: pre;
+  text-align: center;
+  animation: pl-strip var(--pl-dur, 1.2s) linear forwards;
 }
 .preloader__draw {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   animation: pl-draw 1.15s var(--ease-in-out) 0.05s forwards;
 }
-@keyframes pl-count {
-  to {
-    --pl-n: 100;
+/* счётчик 0-100: лента цифр на transform со steps (композитор, без перераскладки страницы) */
+@keyframes pl-strip {
+  0% {
+    transform: translate3d(0, 0, 0);
+    animation-timing-function: steps(55, end);
+  }
+  40% {
+    transform: translate3d(0, -55em, 0);
+    animation-timing-function: steps(30, end);
+  }
+  75% {
+    transform: translate3d(0, -85em, 0);
+    animation-timing-function: steps(15, end);
+  }
+  100% {
+    transform: translate3d(0, -100em, 0);
   }
 }
 @keyframes pl-draw {

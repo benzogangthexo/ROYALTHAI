@@ -43,3 +43,6 @@ next-env.d.ts
 
 # QA
 /qa-out
+
+# GitHub Pages build
+/.pages-api-stash

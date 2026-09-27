@@ -1,5 +1,3 @@
-import "server-only";
-
 import type { BookingResponse } from "@/lib/api/schemas";
 
 /* Память процесса (симуляция бэкенда): globalThis, чтобы все роуты видели одно хранилище */

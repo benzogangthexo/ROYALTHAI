@@ -1,18 +1,19 @@
-import "server-only";
-
-import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { sleep } from "@/lib/utils";
 
-const noStore = { "Cache-Control": "no-store" };
+/*
+ * Ответы API на стандартном Response: одни и те же обработчики работают и на сервере
+ * (src/app/api/*), и в браузере в статической сборке для GitHub Pages (src/lib/api/local.ts).
+ */
+const headers = { "Content-Type": "application/json", "Cache-Control": "no-store" };
 
 export function ok<T>(data: T, status = 200) {
-  return NextResponse.json(data, { status, headers: noStore });
+  return new Response(JSON.stringify(data), { status, headers });
 }
 
 export function fail(status: number, code: string, message: string, fields?: Record<string, string[]>) {
-  return NextResponse.json({ error: { code, message, ...(fields ? { fields } : {}) } }, { status, headers: noStore });
+  return new Response(JSON.stringify({ error: { code, message, ...(fields ? { fields } : {}) } }), { status, headers });
 }
 
 /** 422 с ошибками по полям (zod) */

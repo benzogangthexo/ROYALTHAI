@@ -38,7 +38,9 @@ export function SmoothScroll() {
       scrollToTarget(el);
     };
     document.addEventListener("click", onClick);
-    if (reduced()) return () => document.removeEventListener("click", onClick);
+    /* Lenis только для мыши: на телефонах нативный скролл быстрее и не крутит лишний rAF */
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (reduced() || !fine) return () => document.removeEventListener("click", onClick);
 
     const instance = new Lenis({ lerp: 0.1, smoothWheel: true, autoRaf: true });
     lenis = instance;

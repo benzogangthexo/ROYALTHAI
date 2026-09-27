@@ -12,9 +12,22 @@ export function Preloader({ children, className }: { children?: ReactNode; class
     <div className={cn("preloader", className)} aria-hidden="true">
       <div className="flex flex-col items-center gap-6">
         {children}
-        <span className="preloader__count t-eyebrow tabular text-fg-muted" />
+        <PreloaderCount className="t-eyebrow tabular text-fg-muted" />
       </div>
     </div>
+  );
+}
+
+const DIGITS = Array.from({ length: 101 }, (_, i) => String(i)).join("\n");
+
+/** Счётчик 0-100 для шторки: лента цифр, сдвигается transform со steps() (без JS, без перераскладки) */
+export function PreloaderCount({ className }: { className?: string }) {
+  return (
+    <span className={cn("preloader__count", className)}>
+      <span className="preloader__digits">
+        <span className="preloader__strip">{DIGITS}</span>
+      </span>
+    </span>
   );
 }
 

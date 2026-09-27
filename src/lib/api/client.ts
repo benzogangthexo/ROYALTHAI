@@ -45,13 +45,18 @@ export async function apiFetch<S extends z.ZodType>(url: string, options: Option
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     let retry = false;
     try {
-      const res = await fetch(withChaos(url), {
+      const init: RequestInit = {
         method,
         headers: body === undefined ? undefined : { "Content-Type": "application/json" },
         body: body === undefined ? undefined : JSON.stringify(body),
         signal: controller.signal,
         cache: "no-store",
-      });
+      };
+      /* статическая сборка (GitHub Pages): те же обработчики API выполняются в браузере */
+      const res =
+        process.env.NEXT_PUBLIC_STATIC === "1"
+          ? await (await import("@/lib/api/local")).localFetch(withChaos(url), init)
+          : await fetch(withChaos(url), init);
       const json: unknown = await res.json().catch(() => null);
       if (!res.ok) {
         const parsed = ApiErrorSchema.safeParse(json);
